@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 project(ClothSim)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -35,7 +36,7 @@ if(APPLE)
   endif()
 
   # Clang configuration
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 
     set(CLANG_CXX_FLAGS "-std=c++11 -m64")
 
