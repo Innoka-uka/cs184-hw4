@@ -25,9 +25,14 @@ in vec4 v_normal;
 out vec4 out_color;
 
 void main() {
-  // YOUR CODE HERE
-  
-  // (Placeholder code. You will want to replace it.)
-  out_color = (vec4(1, 1, 1, 0) + v_normal) / 2;
-  out_color.a = 1;
+  // Diffuse lighting calculation
+  vec3 n = normalize(v_normal.xyz);
+  vec3 l = normalize(u_light_pos - v_position.xyz);
+  vec3 r = v_position.xyz - u_light_pos;
+  float r2 = dot(r, r);
+
+  // Lambert's law: Ld = kd * (I / r^2) * max(0, n . l)
+  vec3 Ld = vec3(1.0) * (u_light_intensity / r2) * max(0.0, dot(n, l));
+
+  out_color = vec4(Ld, 1);
 }

@@ -20,17 +20,20 @@ out vec2 v_uv;
 out vec4 v_tangent;
 
 float h(vec2 uv) {
-  // You may want to use this helper function...
-  return 0.0;
+  // Sample height from texture's red channel
+  return texture(u_texture_2, uv).r;
 }
 
 void main() {
-  // YOUR CODE HERE
-  
-  // (Placeholder code. You will want to replace it.)
-  v_position = u_model * in_position;
+  // Get height at current UV
+  float height = h(in_uv);
+
+  // Displace vertex position along the normal
+  vec3 displaced_position = in_position.xyz + in_normal.xyz * height * u_height_scaling;
+
+  v_position = u_model * vec4(displaced_position, 1.0);
   v_normal = normalize(u_model * in_normal);
   v_uv = in_uv;
   v_tangent = normalize(u_model * in_tangent);
-  gl_Position = u_view_projection * u_model * in_position;
+  gl_Position = u_view_projection * u_model * vec4(displaced_position, 1.0);
 }
